@@ -13,27 +13,8 @@
       (swap! f5 assoc i (+ n5 i5)))
     {2 @f2 5 @f5}))
 
-(defn solve
-  [limit power-of-10]
-  (let [power-map (generate-power-map limit)
-        get-power (fn [^long p ^long n] ((get power-map p) n))
-        prime-power (fn [[^long i ^long j ^long k]]
-                      [(apply - (map (partial get-power 2) [limit i j k]))
-                       (apply - (map (partial get-power 5) [limit i j k]))])
-        valid? (fn [coll] (every? #(>= % power-of-10) coll))
-        ->count (fn [[^long i ^long j ^long k]] (cond
-                                (= i j k) 1
-                                (or (= i j) (= j k) (= i k)) 3
-                                :else 6))
-        result (atom 0)]
-    (doseq [i (range (inc (quot limit 3)))
-            j (range i (inc (quot (- limit i) 2)))
-            :let [k (- limit i j)]
-            :when (valid? (prime-power [i j k]))]
-      (swap! result + (->count [i j k])))
-    @result))
 
-(defn solve2
+(defn solve
   [limit power-of-10]
   (let [power-map (generate-power-map limit)
         get-power (fn [p n] ((get power-map p) n))
@@ -42,7 +23,7 @@
                             p5 (apply - (map (partial get-power 5) [limit i j k]))]
                         (if (and (>= p5 power-of-10) (>= p2 power-of-10))
                           (cond
-                            (= i j k) 1
+                            ; (= i j k) 1
                             (or (= j k) (= i k) (= i j)) 3
                             :else 6)
                           0)))
@@ -53,8 +34,23 @@
       (swap! result + (count-power [i j k])))
     @result))
 
+(defn solve2
+  [limit]
+  (let [result (atom 0)]
+    (doseq [i (range (inc (quot limit 3)))
+            j (range i (inc (quot (- limit i) 2)))]
+      (swap! result inc))
+    @result))
+
+(defn solve3
+  [limit]
+  (->> (range (inc (quot limit 3)))
+       (map #(range % (inc (quot (- limit %) 2))))
+       (map count)
+       (apply +)))
+
 (comment
-  (time (solve2 200000 12))
-  (time (solve 2000 4))
+  (time (solve3 20000))
+  (time (solve 20000 8))
   )
 
