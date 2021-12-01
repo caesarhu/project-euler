@@ -5,7 +5,7 @@
 (defn solve
   [limit prime]
   (let [prime-prod (quot (* prime (inc prime)) 2)]
-    (loop [digits (reverse (misc/digits limit prime))
+    (loop [digits (misc/digits limit prime)
            sum 0
            current-prod 1]
       (if (empty? digits)
