@@ -2,6 +2,9 @@
   (:require [clojure.math.numeric-tower :as math]
             [caesarhu.shun-tools.math-misc :as misc]))
 
+; https://projecteuler.net/thread=148;page=8#last
+; vikt's solution
+
 (defn solve
   [limit prime]
   (let [prime-prod (quot (* prime (inc prime)) 2)]
