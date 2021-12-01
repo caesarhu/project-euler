@@ -14,7 +14,7 @@
     {2 @f2 5 @f5}))
 
 (defn solve
-  [^long limit ^long power-of-10]
+  [limit power-of-10]
   (let [power-map (generate-power-map limit)
         get-power (fn [^long p ^long n] ((get power-map p) n))
         prime-power (fn [[^long i ^long j ^long k]]
@@ -24,15 +24,37 @@
         ->count (fn [[^long i ^long j ^long k]] (cond
                                 (= i j k) 1
                                 (or (= i j) (= j k) (= i k)) 3
-                                :else 6))]
-    (reduce + (for [^long i (range (inc (quot limit 3)))
-                    ^long j (range i (inc (quot (- limit i) 2)))
-                    :let [k (- limit i j)]
-                    :when (valid? (prime-power [i j k]))]
-                (->count [i j k])))))
+                                :else 6))
+        result (atom 0)]
+    (doseq [i (range (inc (quot limit 3)))
+            j (range i (inc (quot (- limit i) 2)))
+            :let [k (- limit i j)]
+            :when (valid? (prime-power [i j k]))]
+      (swap! result + (->count [i j k])))
+    @result))
 
-(defn euler-154
-  []
-  (solve 200000 12))
+(defn solve2
+  [limit power-of-10]
+  (let [power-map (generate-power-map limit)
+        get-power (fn [p n] ((get power-map p) n))
+        count-power (fn [[i j k]]
+                      (let [p2 (apply - (map (partial get-power 2) [limit i j k]))
+                            p5 (apply - (map (partial get-power 5) [limit i j k]))]
+                        (if (and (>= p5 power-of-10) (>= p2 power-of-10))
+                          (cond
+                            (= i j k) 1
+                            (or (= j k) (= i k) (= i j)) 3
+                            :else 6)
+                          0)))
+        result (atom 0)]
+    (doseq [i (range (inc (quot limit 3)))
+            j (range i (inc (quot (- limit i) 2)))
+            :let [k (- limit i j)]]
+      (swap! result + (count-power [i j k])))
+    @result))
 
-; (time (euler-154))
+(comment
+  (time (solve2 200000 12))
+  (time (solve 2000 4))
+  )
+
