@@ -20,5 +20,5 @@
 
 (comment
   (time (solve (math/expt 10 9) 7))
-  (time (solve 100 7))
+  (time (solve 100 2))
   )
