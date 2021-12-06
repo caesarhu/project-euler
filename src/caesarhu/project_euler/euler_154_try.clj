@@ -73,8 +73,5 @@
          (apply +))))
 
 (comment
-  (->> (range (inc target))
-       (map #(coefficient-prime-power target % 5))
-       (filter #(>= % 5))
-       count)
+  (time (solve-old 2000 2))
   )
