@@ -104,8 +104,7 @@
 
 (defn solve2
   []
-  (->> (prime-power-seq target 5 5)
-       (apply concat)
+  (->> (range target)
        (map #(count-power-of-10 target % 12))
        (apply +)))
 
