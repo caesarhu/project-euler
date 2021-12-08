@@ -14,7 +14,7 @@
     {2 @f2 5 @f5}))
 
 
-(defn solve
+(defn solve-old
   [limit power-of-10]
   (let [power-map (generate-power-map limit)
         get-power (fn [p n] ((get power-map p) n))
@@ -35,6 +35,6 @@
     @result))
 
 (comment
-  (time (solve 20000 8))
+  (time (solve-old 20000 8))
   )
 

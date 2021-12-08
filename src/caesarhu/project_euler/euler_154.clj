@@ -77,18 +77,24 @@
 
 (defn prime-power-seq
   [n p power]
-  (mapcat #(number-combinator-seq n p %) (generate-carry n p power)))
+  (map #(number-combinator-seq n p %) (generate-carry n p power)))
 
 (defn count-power-of-10
   [target m power-of-10]
   (let [power-2 (- power-of-10 (prime-power-i-of-n! target m 2))
-        power-5 (- power-of-10 (prime-power-i-of-n! target m 5))]
+        power-5 (- power-of-10 (prime-power-i-of-n! target m 5))
+        sum (atom 0)]
     (if (<= power-2 0)
-      (count-prime-power m 5 power-5)
-      (->> (prime-power-seq m 5 power-5)
-           (map #(prime-power-i-of-n! m % 2))
-           (filter #(>= % power-2))
-           count))))
+      (swap! sum + (count-prime-power m 5 power-5))
+      (do
+        (doseq [s (prime-power-seq m 5 power-5)]
+          (doseq [i s
+                  :let [i*2 (* i 2)]
+                  :while (<= i*2 m)
+                  :let [counter (if (= i*2 m) 1 2)]]
+            (when (>= (prime-power-i-of-n! m i 2) power-2)
+              (swap! sum + counter))))
+        @sum))))
 
 (defn solve
   [limit power-of-10]
@@ -96,6 +102,14 @@
        (map #(count-power-of-10 limit % power-of-10))
        (apply +)))
 
+(defn solve2
+  []
+  (->> (prime-power-seq target 5 5)
+       (apply concat)
+       (map #(count-power-of-10 target % 12))
+       (apply +)))
+
 (comment
-  (time (solve 2000 2))
+  (time (solve2))
+  (time (solve 20000 8))
   )

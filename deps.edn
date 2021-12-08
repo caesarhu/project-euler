@@ -9,10 +9,10 @@
         aysylu/loom {:mvn/version "1.0.2"}
         org.clojure/core.logic {:mvn/version "1.0.0"}
         rm-hull/markov-chains {:mvn/version "0.1.1"}
-        org.clojure/core.cache {:mvn/version "1.0.217"}
+        org.clojure/core.cache {:mvn/version "1.0.225"}
         criterium/criterium {:mvn/version "0.4.6"}
         sicmutils/sicmutils {:mvn/version "0.20.1"}
-        org.clojure/core.memoize {:mvn/version "1.0.250"}
+        org.clojure/core.memoize {:mvn/version "1.0.253"}
         metosin/malli {:mvn/version "0.6.2"}
         net.clojars.john/injest {:mvn/version "0.1.0-alpha.24"}
         org.clojure/core.match {:mvn/version "1.0.0"}
