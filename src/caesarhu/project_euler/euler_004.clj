@@ -5,9 +5,8 @@
 
 (defn palindrome-generator
   [n]
-  (let [first-digit (range 9 0 -1)
-        other-digit (range 9 -1 -1)]
-    (->> (cons first-digit (repeat (dec n) other-digit))
+  (let [digit (range 9 -1 -1)]
+    (->> (repeat n digit)
          (apply combo/cartesian-product)
          (map (fn [coll]
                 (concat coll (reverse coll))))
