@@ -12,7 +12,7 @@
                :when (and (< a b c)
                           (> (+ a b) c)
                           (= (+ (square a) (square b)) (square c)))]
-           (* a b c))))
+           [(* a b c) [a b c]])))
 
 (comment
   (time (brute-force 1000))
