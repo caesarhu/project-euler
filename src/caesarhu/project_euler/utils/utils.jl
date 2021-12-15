@@ -26,3 +26,10 @@ function divisors(n::Integer)
     sort!(d)
     return d
 end
+
+"""
+count all divisors of a number.
+"""
+function count_divisors(n::Int64)
+    reduce(*, map(x -> x + 1, values(factor(Dict, n))))
+end
