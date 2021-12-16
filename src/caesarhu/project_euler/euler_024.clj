@@ -6,4 +6,6 @@
   (->> (comb/nth-permutation (range 10) n)
        (apply str)))
 
-; (time (solve 1000000))
+(comment 
+  (time (solve 1000000))
+  )

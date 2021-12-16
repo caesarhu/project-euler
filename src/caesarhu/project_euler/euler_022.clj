@@ -1,8 +1,7 @@
 (ns caesarhu.project-euler.euler-022
-  (:require [clojure.string :as str]
-            [caesarhu.shun-tools.math-misc :as misc]))
+  (:require [clojure.string :as str]))
 
-(def euler-022-file "resources/data/names.txt")
+(def euler-022-file "resources/data/p022_names.txt")
 
 (defn get-data [fname]
   (sort (str/split (slurp fname) #",")))
@@ -23,4 +22,6 @@
   []
   (name-score (get-data euler-022-file)))
 
-; (time (solve))
+(comment
+  (time (solve))
+  )
