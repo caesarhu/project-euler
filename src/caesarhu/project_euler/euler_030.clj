@@ -17,3 +17,7 @@
   (->> (range 2 (math/expt 10 (inc power)))
        (filter #(nth-power-sum? % power))
        (#(hash-map :sum (apply + %) :values %))))
+
+(comment
+  (solve 5)
+  )
