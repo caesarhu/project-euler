@@ -23,4 +23,8 @@
        last
        (apply *)))
 
-; (time (solve 1000))
+(comment 
+  (time (solve 1000))
+  )
+        
+         

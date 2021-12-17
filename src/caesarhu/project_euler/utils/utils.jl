@@ -33,3 +33,32 @@ count all divisors of a number.
 function count_divisors(n::Int64)
     reduce(*, map(x -> x + 1, values(factor(Dict, n))))
 end
+
+function floyd_cycle(f, x0)
+    local tort = f(x0)
+    local hare = f(tort)
+    while tort != hare
+        tort = f(tort)
+        hare = f(f(hare))
+        if isnothing(hare)
+            return [0, 0]
+        end
+    end
+ 
+    local μ = 0
+    tort = x0
+    while tort != hare
+        tort = f(tort)
+        hare = f(hare)
+        μ += 1
+    end
+ 
+    λ = 1
+    hare = f(tort)
+    while tort != hare
+        hare = f(hare)
+        λ += 1
+    end
+ 
+    return λ, μ
+end
