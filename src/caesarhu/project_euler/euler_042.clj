@@ -1,7 +1,7 @@
 (ns caesarhu.project-euler.euler-042
   (:require [caesarhu.shun-tools.math-misc :as misc]))
 
-(def fname "resources/data/words.txt")
+(def fname "resources/data/p042_words.txt")
 
 (defn get-data [fname]
   (sort (clojure.string/split (slurp fname) #",")))
@@ -15,3 +15,7 @@
        (map word-score)
        (filter misc/is-triangular?)
        count))
+
+(comment
+  (time (solve))
+  )

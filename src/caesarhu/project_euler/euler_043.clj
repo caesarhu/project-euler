@@ -59,6 +59,6 @@
       (recur (rest primes-seq) (combine-possible digits-seq (first primes-seq))))))
 
 (comment
-  (bench (solve))
+  (time (solve))
   (time (brute-force))
   )

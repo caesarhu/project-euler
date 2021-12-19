@@ -5,13 +5,19 @@
 (def digit-seq
   (mapcat misc/digits (rest (range))))
 
-(defn solve
+(defn answer-seq
   [n]
   (->> (for [i (range n)]
          (math/expt 10 i))
-       (map #(nth digit-seq (dec %)))
-       (apply *)))
+       (map #(nth digit-seq (dec %)))))
 
-; (time (solve 7))
+(defn solve
+  [n]
+  (apply * (answer-seq n)))
+
+(comment
+  (answer-seq 7)
+  (solve 7)
+  )
 
 
