@@ -4,8 +4,12 @@ using Primes
 digits collect to number
 to_number(d)
 """
-function to_number(d, base=10)
-    sum(d.*base .^(0:(length(d)-1)))
+function to_number(d, direction=false, base=10)
+    if direction
+        sum(d.*base .^((length(d)-1):-1:0))
+    else
+        sum(d.*base .^(0:(length(d)-1)))
+    end
 end
 
 """
