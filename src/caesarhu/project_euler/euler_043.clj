@@ -1,64 +1,38 @@
 (ns caesarhu.project-euler.euler-043
-  (:require [caesarhu.shun-tools.math-misc :as misc]
-            [caesarhu.shun-tools.primes :as p]
-            [clojure.math.combinatorics :as comb]
-            [criterium.core :refer [bench]]))
+  (:require [caesarhu.shun-tools.math-misc :as misc]))
 
-(def pandigital-seq
-  (comb/permutations (range 0 10)))
+(defn is-different?
+  [v]
+  (= (count v) (count (set v))))
 
-(defn slices
-  [xs]
-  (let [get-slice (fn [n] (misc/to-number (take 3 (drop n xs))))]
-    (map get-slice (range 1 8))))
+(defn is-divisible?
+  [v d]
+  (-> (take-last 3 v) misc/to-number (mod d) zero?))
 
-(defn is-substring-divisible? [xs]
-  (every? zero? (map mod (slices xs) p/primes)))
+(def init (map vector (range 1 10)))
+(def digit (range 10))
+(def primes [1 1 2 3 5 7 11 13 17])
 
-(defn calc 
-  [coll]
-  (->> coll
-       (filter is-substring-divisible?)
-       (map misc/to-number)
-       (reduce +)))
+(defn prod-digit
+  [s]
+  (mapcat #(map (fn [d]
+                  (concat % [d])) digit) 
+          s))
 
-(defn brute-force 
-  []
-  (->> pandigital-seq
-       (partition-all 20000)
-       (pmap calc)
-       (reduce +)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defn possible
-  [p coll]
-  (let [s (set coll)
-        distinct-digit? (fn [d] (not (s d)))
-        tail-2-digits (vec (take-last 2 coll))
-        valid-p? (fn [coll] (zero? (mod (misc/to-number coll) p)))
-        valid-digit? (fn [d] (and (distinct-digit? d)
-                                  (valid-p? (conj tail-2-digits d))))]
-    (for [d (range 10)
-          :when (valid-digit? d)]
-      (conj coll d))))
-
-(defn combine-possible
-  [coll p]
-  (apply concat (map #(possible p %) coll)))
+(defn next-digit
+  [s prime]
+  (->> (prod-digit s)
+       (filter is-different?)
+       (filter #(is-divisible? % prime))))
 
 (defn solve
   []
-  (loop [primes-seq [2 3 5 7 11 13 17]
-         digits-seq (for [i (range 100 1000)
-                          :let [ds (misc/digits i)]
-                          :when (apply distinct? ds)]
-                      (vec ds))]
-    (if (empty? primes-seq)
-      (apply + (map misc/to-number digits-seq))
-      (recur (rest primes-seq) (combine-possible digits-seq (first primes-seq))))))
+  (->> (reduce (fn [acc prime]
+                 (next-digit acc prime))
+               init primes)
+       (map misc/to-number)
+       (apply +)))
 
 (comment
   (time (solve))
-  (time (brute-force))
   )
