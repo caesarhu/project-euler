@@ -20,13 +20,7 @@
           (everyg #(fd/in % (fd/interval 9)) vars)
           (fd/distinct vars)
           (fd/> (vars 0) 0)
-          (apply d3-divisible (rules 0))
-          (apply d3-divisible (rules 1))
-          (apply d3-divisible (rules 2))
-          (apply d3-divisible (rules 3))
-          (apply d3-divisible (rules 4))
-          (apply d3-divisible (rules 5))
-          (apply d3-divisible (rules 6)))))
+          (everyg #(apply d3-divisible %) rules))))
 
 (defn solve
   []
@@ -35,5 +29,6 @@
        (apply +)))
 
 (comment
+  (logic)
   (time (solve))
   )
