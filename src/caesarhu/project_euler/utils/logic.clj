@@ -18,8 +18,7 @@
 
 (comment
   (run* [q]
-        (counto [1 2 3] q))
-  )
+        (counto [1 2 3] q)))
 
 (defn lasto
   [xs x]
@@ -80,5 +79,4 @@
 
 (comment
   (run* [q]
-        (numbero [1 2 3] q))
-  )
+        (numbero [1 2 3] q)))

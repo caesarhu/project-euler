@@ -4,7 +4,7 @@
         org.clojure/math.numeric-tower {:mvn/version "0.0.5"}
         org.clojure/math.combinatorics {:mvn/version "0.1.6"}
         caesarhu/shun-tools {:git/url "https://github.com/caesarhu/shun-tools"
-                             :sha "ce67769662967feb25d4d4bede13d576720916b8"}
+                             :sha "29130c8e3cc2a4c89210092f10e67110dc4e8b9b"}
         net.cgrand/xforms {:mvn/version "0.19.2"}
         aysylu/loom {:mvn/version "1.0.2"}
         org.clojure/core.logic {:mvn/version "1.0.0"}
@@ -28,5 +28,5 @@
                 io.github.cognitect-labs/test-runner
                 {:git/tag "v0.5.0" :git/sha "48c3c67"}}}
   :build {:deps {io.github.seancorfield/build-clj
-                 {:git/tag "v0.6.3" :git/sha "9b8e09b"}}
+                 {:git/tag "v0.6.5" :git/sha "972031a"}}
           :ns-default build}}}

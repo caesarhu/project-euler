@@ -14,10 +14,10 @@
 
 (defne nqueenso [l n]
   ([() _])
-  ([[[x y] . t] _]
+  ([[[d8 y] . t] _]
    (nqueenso t n)
-   (membero x (range n))
-   (safeo [x y] t)))
+   (membero d8 (range n))
+   (safeo [d8 y] t)))
 
 (defn solve-nqueens [n]
   (run* [q]
