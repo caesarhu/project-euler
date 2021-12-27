@@ -25,5 +25,5 @@
         (nqueenso q n)))
 
 (comment
-  (time (count (solve-nqueens 10)))
+  (time (count (solve-nqueens 8)))
   )

@@ -2,33 +2,48 @@
   (:refer-clojure :exclude [==])
   (:require [clojure.core.logic :refer :all]
             [clojure.core.logic.fd :as fd]
+            [caesarhu.project-euler.utils.logic :as l]
             [caesarhu.shun-tools.math-misc :as misc]))
 
-(defn d3-divisible
-  [a b c p]
-  (fd/eq
-   (= (* (/ (+ (* a 100) (* b 10) c) p) p) (+ (* a 100) (* b 10) c))))
+(defne takeo
+  [n coll res]
+  ([0 _ []])
+  ([n [] []]
+   (fd/!= n 0))
+  ([n [chead . ctail] [rhead . rtail]]
+   (fresh [n']
+          (fd/+ n' 1 n)
+          (== chead rhead)
+          (takeo n' ctail rtail))))
 
-(defn logic
-  []
-  (let [vars (vec (repeatedly 10 lvar))
-        primes [2 3 5 7 11 13 17]
-        rules (vec (for [i (range (count primes))]
-                     (conj (subvec vars (inc i) (+ i 4)) (primes i))))]
-    (run* [q]
-          (== q vars)
-          (everyg #(fd/in % (fd/interval 9)) vars)
-          (fd/distinct vars)
-          (fd/> (vars 0) 0)
-          (everyg #(apply d3-divisible %) rules))))
+(defn mapo
+  "core.logic version of map"
+  [fo vs rs]
+  (conda
+   [(emptyo vs) (emptyo rs)]
+   [(fresh [v r restvs restrs]
+           (conso v restvs vs)
+           (conso r restrs rs)
+           (fo v r)
+           (mapo fo restvs restrs))]))
 
-(defn solve
-  []
-  (->> (logic)
-       (map misc/to-number)
-       (apply +)))
+(defn inco
+  [n res]
+  (project [n]
+           (== (inc n) res)))
+
+(defn add-digit
+  [digits p res]
+  (fresh [digit d3 num]
+         (membero digit (range 10))
+         (conso digit digits res)
+         (distincto res)
+         (takeo 3 res d3)
+         (l/numbero d3 num)
+         (fd/eq
+          (= num (* (/ num p) p)))))
 
 (comment
-  (logic)
-  (time (solve))
-  )
+  (run* [q]
+        (mapo inco (range 10) q))
+)

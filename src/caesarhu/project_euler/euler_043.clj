@@ -4,37 +4,29 @@
   (:import [com.google.ortools.sat CpModel IntVar CpSolverSolutionCallback LinearExpr]
            [com.google.ortools.util Domain]))
 
-(defn is-different?
-  [v]
-  (= (count v) (count (set v))))
+(defn add-digit-divisible
+  [v p]
+  (let [v-set (set v)]
+    (for [i (range 10)
+          :when (not (v-set i))
+          :let [vi (cons i v)
+                t (take 3 vi)]
+          :when (zero? (mod (misc/to-number t) p))]
+      vi)))
 
-(defn is-divisible?
-  [v d]
-  (-> (take-last 3 v) misc/to-number (mod d) zero?))
-
-(def init (map vector (range 1 10)))
-(def digit (range 10))
-(def primes [1 1 2 3 5 7 11 13 17])
-
-(defn prod-digit
-  [s]
-  (mapcat #(map (fn [d]
-                  (concat % [d])) digit) 
-          s))
-
-(defn next-digit
-  [s prime]
-  (->> (prod-digit s)
-       (filter is-different?)
-       (filter #(is-divisible? % prime))))
+(defn filter-rules
+  [primes]
+  (let [init (map vector (range 10))]
+    (reduce (fn [acc p]
+              (mapcat #(add-digit-divisible % p) acc))
+            init primes)))
 
 (defn solve
   []
-  (->> (reduce (fn [acc prime]
-                 (next-digit acc prime))
-               init primes)
-       (map misc/to-number)
-       (apply +)))
+  (let [primes [1 17 13 11 7 5 3 2 1]]
+    (->> (filter-rules primes)
+         (map misc/to-number)
+         (apply +))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -3,6 +3,7 @@
   (:require [caesarhu.shun-tools.math-misc :as misc]
             [clojure.core.logic :refer :all]
             [clojure.core.logic.fd :as fd]
+            [caesarhu.project-euler.utils.logic :as l]
             [rolling-stones.core :as sat :refer [! at-least at-most exactly]]))
 
 (def target
@@ -43,14 +44,6 @@
 ; clojure core.logic solution, sample solved, but too slow to target
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defn sumo [vars sum]
-  (fresh [vhead vtail run-sum]
-         (conde
-          [(== vars ()) (== sum 0)]
-          [(conso vhead vtail vars)
-           (fd/+ vhead run-sum sum)
-           (sumo vtail run-sum)])))
-
 (defn number-mind
   [s]
   (let [length (count (misc/digits (ffirst s)))
@@ -59,11 +52,11 @@
         rule-fd (fn [[digits n]]
                   (let [vs (->> (map-indexed vector (misc/digits digits))
                                 (map #(get-in matrix %)))]
-                    (sumo vs n)))]
+                    (l/sumo vs n)))]
     (run* [q]
           (== q matrix)
           (everyg #(fd/in % (fd/domain 0 1)) vars)
-          (everyg #(sumo % 1) matrix)
+          (everyg #(l/sumo % 1) matrix)
           (everyg #(rule-fd %) s))))
 
 (defn matrix->number
@@ -78,6 +71,10 @@
 (defn solve-logic
   [s]
   (-> s number-mind first matrix->number))
+
+(comment
+  (time (solve-logic sample))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; SAT solution, using Rolling Stones https://github.com/Engelberg/rolling-stones
