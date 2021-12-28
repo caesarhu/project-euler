@@ -2,7 +2,6 @@
   (:refer-clojure :exclude [==])
   (:require [clojure.core.logic :refer :all]
             [clojure.core.logic.fd :as fd]
-            [caesarhu.project-euler.utils.logic :as l]
             [caesarhu.shun-tools.math-misc :as misc]))
 
 (defne takeo
@@ -16,6 +15,23 @@
           (== chead rhead)
           (takeo n' ctail rtail))))
 
+(defn reduceo [g]
+  (fn reduceo* [val coll ret]
+    (conda
+     [(emptyo coll) (== val ret)]
+     [(fresh [x xs ret']
+             (conso x xs coll)
+             (g x val ret')
+             (reduceo* ret' xs ret))])))
+
+(defn numbero
+  [l n]
+  ((reduceo (fn [d n n']
+              (fresh [x]
+                     (fd/* n 10 x)
+                     (fd/+ x d n'))))
+   0 l n))
+
 (defn add-digit
   [p digits res]
   (fresh [digit d3 num]
@@ -23,29 +39,24 @@
          (conso digit digits res)
          (distincto res)
          (takeo 3 res d3)
-         (l/numbero d3 num)
+         (numbero d3 num)
          (fd/eq
           (= num (* (/ num p) p)))))
 
-(defn get-solutions
-  [primes]
-  (run* [q]
-        (fresh [d]
-               (fd/in d (fd/interval 9))
-               ((l/reduceo add-digit) [[d]] primes q))))
+(defn prime-digits
+  [init primes res]
+  ((reduceo add-digit) init primes res))
+
+(defn solve-logic
+  []
+  (let [primes [1 17 13 11 7 5 3 2 1]]
+    (->> (run* [q]
+               (fresh [d]
+                      (membero d (range 10))
+                      (prime-digits [d] primes q)))
+         (map misc/to-number)
+         (apply +))))
 
 (comment
-  (get-solutions [1])
-  (run* [q]
-        (fresh [d9 d8 d7 d6 d5 d4 d3 d2 d1]
-               (fd/in d9 (fd/interval 9))
-               (add-digit 1 [d9] d8)
-               (add-digit 17 d8 d7)
-               (add-digit 13 d7 d6)
-               (add-digit 11 d6 d5)
-               (add-digit 7 d5 d4)
-               (add-digit 5 d4 d3)
-               (add-digit 3 d3 d2)
-               (add-digit 2 d2 d1)
-               (add-digit 1 d1 q)))
+  (time (solve-logic))
 )

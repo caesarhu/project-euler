@@ -28,6 +28,5 @@
          (apply +))))
 
 (comment
-  (filter-rules [1 17 13])
   (time (solve))
   )
