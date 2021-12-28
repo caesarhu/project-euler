@@ -42,4 +42,4 @@
 
 (comment
   (time (solve 1000000))
-  )
+  (time (count (p/primes-tox 1000000))))

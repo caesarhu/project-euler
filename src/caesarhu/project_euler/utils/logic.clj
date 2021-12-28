@@ -3,22 +3,16 @@
   (:require [clojure.core.logic :refer :all]
             [clojure.core.logic.fd :as fd]))
 
-(defne counto-helper
-  [coll res]
-  ([[] 0])
-  ([[h . t] res] (fresh [x]
-                        (counto-helper t x)
-                        (fd/+ x 1 res))))
-
 (defn counto
-  "This logical function unifies result with the number
-  of elements contained in lst."
-  [lst result]
-  (counto-helper lst result))
-
-(comment
-  (run* [q]
-        (counto [1 2 3] q)))
+  [coll count]
+  (conde
+   [(conda
+     [(emptyo coll) (== count 0)]
+     [(== count 0) (emptyo coll)])]
+   [(fresh [next-count head tail]
+           (fd/+ next-count 1 count)
+           (conso head tail coll)
+           (counto tail next-count))]))
 
 (defn lasto
   [xs x]
@@ -30,17 +24,16 @@
   ([[x . xs] i f] (fresh [j] (fd/- i 1 j) (ntho xs j f)))
   ([[] i f] (fd/> i 0) (nilo f)))
 
-(defn reduceo [g]
-  (fn reduceo* [val coll ret]
-    (conde
-     [(== coll ()) (== val ret)]
-     [(fresh [x xs ret']
-             (conso x xs coll)
-             (g val x ret')
-             (reduceo* ret' xs ret))])))
-
-(defn sumo [l sum]
-  ((reduceo fd/+) 0 l sum))
+(defne takeo
+  [n coll res]
+  ([0 _ []])
+  ([n [] []]
+   (!= n 0))
+  ([n [chead . ctail] [rhead . rtail]]
+   (fresh [n']
+          (fd/+ n' 1 n)
+          (== chead rhead)
+          (takeo n' ctail rtail))))
 
 (defn same-lengtho [xs ys]
   (conde
@@ -50,17 +43,29 @@
            (conso y ys' ys)
            (same-lengtho xs' ys'))]))
 
-(defn reverso* [l r]
-  (conde
-   [(== l ()) (== r ())]
-   [(fresh [la ld ldr]
-           (conso la ld l)
-           (appendo ldr (list la) r)
-           (reverso* ld ldr))]))
+(defn reverseo
+  [xs ys]
+  (letfn [(reverso* [l r]
+                    (conde
+                     [(== l ()) (== r ())]
+                     [(fresh [la ld ldr]
+                             (conso la ld l)
+                             (appendo ldr (list la) r)
+                             (reverso* ld ldr))]))]
+    (all (same-lengtho xs ys)
+         (reverso* xs ys))))
 
-(defn reverso [l r]
-  (all (same-lengtho l r)
-       (reverso* l r)))
+(defn reduceo [g]
+  (fn reduceo* [acc coll ret]
+    (conde
+     [(emptyo coll) (== acc ret)]
+     [(fresh [x xs ret']
+             (conso x xs coll)
+             (g acc x ret')
+             (reduceo* ret' xs ret))])))
+
+(defn sumo [l sum]
+  ((reduceo fd/+) 0 l sum))
 
 (defn numbero
   [l n]
@@ -70,13 +75,7 @@
                      (fd/+ x d n'))))
    0 l n))
 
-(defn modulo
-  [l p]
-  (fresh [x]
-         (numbero l x)
-         (fd/eq
-          (= (* (/ x p) p) x))))
-
 (comment
   (run* [q]
-        (numbero [1 2 3] q)))
+        (reverseo q [1 2 3]))
+  )

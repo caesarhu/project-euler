@@ -36,4 +36,8 @@
        first
        int))
 
-; (time (solve 8))
+(comment
+  (time (solve 8))
+  (time (count (p/primes-tox 10000000)))
+  )
+

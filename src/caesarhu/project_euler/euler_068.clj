@@ -7,3 +7,7 @@
         outers (concat [(inc n)] (reverse (range (+ 2 n) (inc (* 2 n)))))
         inners (butlast (reductions #(- magic %1 %2) n outers))]
     (apply str (mapcat conj (partition 2 1 (cycle inners)) outers))))
+
+(comment
+  (time (euler-68-magic 3))
+  )

@@ -69,3 +69,7 @@
     (->> (map bit-xor input (cycle mask))
          (map int->char)
          (apply str))))
+
+(comment
+  (time (solve))
+  )
