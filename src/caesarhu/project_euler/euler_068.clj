@@ -9,5 +9,5 @@
     (apply str (mapcat conj (partition 2 1 (cycle inners)) outers))))
 
 (comment
-  (time (euler-68-magic 3))
+  (time (euler-68-magic 5))
   )

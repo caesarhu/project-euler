@@ -75,7 +75,32 @@
                      (fd/+ x d n'))))
    0 l n))
 
+(defn maxo
+  [l res]
+  ((reduceo (fn [acc n next]
+              (conda
+               [(fd/> n acc) (== next n)]
+               [(== next acc)])))
+   Integer/MIN_VALUE l res))
+
+(defn mino
+  [l res]
+  ((reduceo (fn [acc n next]
+              (conda
+               [(fd/< n acc) (== next n)]
+               [(== next acc)])))
+   Integer/MAX_VALUE l res))
+
+(defne mapo
+  [f coll target]
+  ([_ [] []])
+  ([_ [c . cs] [t . ts]]
+   (f c t)
+   (mapo f cs ts)))
+
 (comment
   (run* [q]
-        (reverseo q [1 2 3]))
+        (fresh [x]
+               (== x (partition 3 (range 100)))
+               (mapo sumo x q)))
   )
