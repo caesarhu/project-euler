@@ -1,17 +1,9 @@
 (ns caesarhu.project-euler.euler-047
-  (:require [caesarhu.primes :as p]
-            [caesarhu.shun-tools.primes :as p2]
-            [caesarhu.shun-tools.math-misc :as misc]))
+  (:require [caesarhu.primes :as p]))
 
 (defn factors-count
-  [n]
-  (->> (p/factors n)
-       distinct
-       count))
-
-(defn factors-count2
-  [n]
-  (->> (p2/prime-factors-of n)
+  [n primes]
+  (->> (p/factors n primes)
        distinct
        count))
 
@@ -23,8 +15,9 @@
 
 (defn solve
   []
-  (let [numbers (->> (iterate inc 2)
-                     (filter #(= 4 (factors-count %))))]
+  (let [primes (p/primes-tox 1000)
+        numbers (->> (iterate inc 2)
+                     (filter #(= 4 (factors-count % primes))))]
     (loop [nums numbers]
       (if (consecutive? (take 4 nums))
         (first nums)

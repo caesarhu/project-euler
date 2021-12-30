@@ -6,7 +6,7 @@
         caesarhu/shun-tools {:git/url "https://github.com/caesarhu/shun-tools"
                              :sha "29130c8e3cc2a4c89210092f10e67110dc4e8b9b"}
         caesarhu/primes {:git/url "https://github.com/caesarhu/primes"
-                         :sha "0b0052edbcefaf7449c5445cde3ef21024774025"}
+                         :sha "51139cafde9064205a73870b7dbf54b31b1bdbcc"}
         org.clojure/tools.namespace {:mvn/version "1.2.0"}
         net.cgrand/xforms {:mvn/version "0.19.2"}
         aysylu/loom {:mvn/version "1.0.2"}
