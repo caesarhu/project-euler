@@ -1,27 +1,34 @@
 (ns caesarhu.project-euler.euler-047
-  (:require [caesarhu.shun-tools.primes :as p]
+  (:require [caesarhu.primes :as p]
+            [caesarhu.shun-tools.primes :as p2]
             [caesarhu.shun-tools.math-misc :as misc]))
 
-(defn prime-factor-4?
+(defn factors-count
   [n]
-  (->> (p/prime-factors-of n)
+  (->> (p/factors n)
        distinct
-       count
-       (#(= 4 %))))
+       count))
+
+(defn factors-count2
+  [n]
+  (->> (p2/prime-factors-of n)
+       distinct
+       count))
 
 (defn consecutive?
-  [coll]
-  (->> (partition 2 1 coll)
+  [v]
+  (->> (partition 2 1 v)
        (map #(apply - %))
-       (apply = -1)))
+       (every? #(= -1 %))))
 
 (defn solve
   []
-  (->> misc/integers
-       (filter prime-factor-4?)
-       (partition 4 1)
-       (filter consecutive?)
-       ffirst))
+  (let [numbers (->> (iterate inc 2)
+                     (filter #(= 4 (factors-count %))))]
+    (loop [nums numbers]
+      (if (consecutive? (take 4 nums))
+        (first nums)
+        (recur (rest nums))))))
 
 (comment
   (time (solve))

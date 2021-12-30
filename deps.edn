@@ -5,6 +5,9 @@
         org.clojure/math.combinatorics {:mvn/version "0.1.6"}
         caesarhu/shun-tools {:git/url "https://github.com/caesarhu/shun-tools"
                              :sha "29130c8e3cc2a4c89210092f10e67110dc4e8b9b"}
+        caesarhu/primes {:git/url "https://github.com/caesarhu/primes"
+                         :sha "0b0052edbcefaf7449c5445cde3ef21024774025"}
+        org.clojure/tools.namespace {:mvn/version "1.2.0"}
         net.cgrand/xforms {:mvn/version "0.19.2"}
         aysylu/loom {:mvn/version "1.0.2"}
         org.clojure/core.logic {:mvn/version "1.0.0"}

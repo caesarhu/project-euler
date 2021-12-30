@@ -1,24 +1,21 @@
 (ns caesarhu.project-euler.euler-046
-  (:require [caesarhu.shun-tools.primes :as p]
+  (:require [caesarhu.primes :as p]
             [clojure.math.numeric-tower :as math]))
 
-(defn prime-and-twice-a-square?
+(defn is-conjecture?
   [n]
-  (let [primes-seq (take-while #(< % n) p/primes)]
-    (->> (for [p primes-seq
-               :let [sqr (math/sqrt (- n p))]
-               i (range 1 (inc sqr))
-               :let [i2 (* i i 2)]
-               :when (= n (+ p i2))]
-           true)
-         first
-         boolean)))
+  (let [sqr (math/sqrt n)]
+    (some p/is-prime? (for [i (rest (range))
+                            :let [i2 (* i i 2)]
+                            :while (> n i2)]
+                        (- n i2)))))
 
 (defn solve
   []
-  (->> p/composites
-       (filter odd?)
-       (some #(and (not (prime-and-twice-a-square? %)) %))))
+  (->> (iterate #(+ % 2) 3)
+       (remove p/is-prime?)
+       (filter (complement is-conjecture?))
+       first))
 
 (comment
   (time (solve))

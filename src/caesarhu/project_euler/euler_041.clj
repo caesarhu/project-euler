@@ -1,5 +1,6 @@
 (ns caesarhu.project-euler.euler-041
   (:require [caesarhu.shun-tools.primes :as p]
+            [caesarhu.primes :as p2]
             [clojure.math.combinatorics :as comb]
             [caesarhu.shun-tools.math-misc :as misc]))
 
