@@ -99,8 +99,5 @@
    (mapo f cs ts)))
 
 (comment
-  (run* [q]
-        (fresh [x]
-               (== x (partition 3 (range 100)))
-               (mapo sumo x q)))
+
   )
