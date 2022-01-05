@@ -1,43 +1,34 @@
 (ns caesarhu.project-euler.euler-051
-  (:require [caesarhu.shun-tools.primes :as p]
+  (:require [caesarhu.primes :as p]
             [caesarhu.shun-tools.math-misc :as misc]))
 
-(defn get-repeated-digits [n]
-  (->> (misc/digits n)
-       frequencies
-       (map (fn [[k v]] {v [k]}))
-       (apply merge-with concat)))
+(defn unique-digits
+  [n]
+  (-> (misc/digits n) distinct))
 
-(defn create-template
-  [n replace-digit]
-  (map #(when-not (= % replace-digit) %)
-       (misc/digits n)))
+(defn replace-digit
+  [n d]
+  (->> (for [i (range 10)]
+         (for [j (misc/digits n)]
+           (if (= j d) i j)))
+       (filter #(pos-int? (first %)))
+       (map misc/to-number)))
 
-(defn do-replace-digits
-  [template]
-  (for [d (range 10)
-        :let [replaced (map #(if (nil? %) d %) template)]
-        :when (-> replaced first zero? not)]
-    (misc/to-number replaced)))
+(defn count-primes
+  [s]
+  (->> (filter p/is-prime? s)
+       count))
 
-(defn generate-replaced-primes
-  [num-matches p]
-  (->> (for [[num-digits digit-seq] (get-repeated-digits p)
-             replace-digit digit-seq
-             :let [template (create-template p replace-digit)]]
-         (do-replace-digits template))
-       (map #(filter p/is-prime? %))
-       (some #(and (= num-matches (count %)) %))))
+(defn is-target?
+  [t n]
+  (->> (map #(replace-digit n %) (unique-digits n))
+       (some #(>= (count-primes %) t))))
 
-(defn solve
-  [num-matches]
-  (->> (p/primes-after 10)
-       (some #(generate-replaced-primes num-matches %))
-       first
-       int))
+(defn solve-051
+  [n]
+  (some #(and (is-target? n %) %) p/primes))
 
 (comment
-  (time (solve 8))
-  (time (count (p/primes-tox 10000000)))
+  (time (solve-051 8))
   )
 
