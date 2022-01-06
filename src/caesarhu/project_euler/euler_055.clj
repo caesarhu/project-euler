@@ -10,8 +10,7 @@
   [n]
   (->> (misc/digits n)
        (reverse)
-       (apply str)
-       (bigint)))
+       misc/to-number))
 
 (defn reverse-sum
   [n]
@@ -27,8 +26,10 @@
 
 (defn solve
   [limit]
-  (->> (range 1 (inc limit))
+  (->> (range 1 limit)
        (filter lychrel-number?)
        count))
 
-; (time (solve 10000))
+(comment
+  (time (solve 10000))
+  )

@@ -17,3 +17,7 @@
        (some #(and (>= (count (val %)) n)
                    (val %)))
        (#(hash-map :sum (cube (first %)) :values %))))
+
+(comment
+  (time (solve 5 10000))
+  )
