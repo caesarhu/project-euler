@@ -1,5 +1,5 @@
 (ns caesarhu.project-euler.euler-050
-  (:require [caesarhu.shun-tools.primes :as p]
+  (:require [caesarhu.math.primes :as p]
             [caesarhu.shun-tools.math-misc :as misc]))
 
 (defn consecutive-primes
@@ -42,4 +42,4 @@
 
 (comment
   (time (solve 1000000))
-  (time (count (p/primes-tox 1000000))))
+  )
