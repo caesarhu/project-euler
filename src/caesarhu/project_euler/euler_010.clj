@@ -1,10 +1,10 @@
 (ns caesarhu.project-euler.euler-010
-  (:require [caesarhu.shun-tools.primes :refer [primes-range]]
+  (:require [caesarhu.math.primes :refer [primes-range]]
             [clojure.math.numeric-tower :as math]))
 
 (defn sieve
   [n]
-  (->> (primes-range 0 n)
+  (->> (primes-range n)
        (apply +)))
 
 (defn solve

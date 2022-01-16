@@ -18,6 +18,11 @@
   [n]
   (apply max (prime-factors-of n)))
 
+(defn solve
+  [n]
+  (apply max (p/factors n)))
+
 (comment
+  (time (solve 600851475143))
   (time (brute-force 600851475143))
   )
