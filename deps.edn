@@ -6,7 +6,9 @@
         caesarhu/shun-tools {:git/url "https://github.com/caesarhu/shun-tools"
                              :sha "29130c8e3cc2a4c89210092f10e67110dc4e8b9b"}
         caesarhu.math/primes {:git/url "https://github.com/caesarhu/primes"
-                              :sha "290d2bd0f8eacff5000171b1dbfe8945588c067c"}
+                              :sha "e86742c467efa62b17239bd679f4c60d85026ecf"}
+        caesarhu.math/math-tools {:git/url "https://github.com/caesarhu/math-tools"
+                                  :sha "5ba5f8c40023ee7c0f23fe85f6b5f087ad1b6099"}
         org.clojure/tools.namespace {:mvn/version "1.2.0"}
         net.cgrand/xforms {:mvn/version "0.19.2"}
         aysylu/loom {:mvn/version "1.0.2"}
@@ -23,7 +25,7 @@
         huahaiy/nifty {:mvn/version "0.1.0"}
         org.clojure/data.int-map {:mvn/version "1.0.0"}
         com.google.ortools/ortools-java {:mvn/version "9.2.9972"}
-        com.google.protobuf/protobuf-java {:mvn/version "3.19.1"}}
+        com.google.protobuf/protobuf-java {:mvn/version "3.19.3"}}
  :aliases
  {:test
   {:extra-paths ["test"]
@@ -31,5 +33,5 @@
                 io.github.cognitect-labs/test-runner
                 {:git/tag "v0.5.0" :git/sha "48c3c67"}}}
   :build {:deps {io.github.seancorfield/build-clj
-                 {:git/tag "v0.6.5" :git/sha "972031a"}}
+                 {:git/tag "v0.6.7" :git/sha "22c2d09"}}
           :ns-default build}}}
